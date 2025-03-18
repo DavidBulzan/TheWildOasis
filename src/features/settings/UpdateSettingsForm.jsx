@@ -48,6 +48,7 @@ function UpdateSettingsForm() {
     const { value } = e.target;
     if (!value) return;
 
+    console.log(value);
     updateSetting({ [field]: value });
   }
 

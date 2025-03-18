@@ -1,2 +1,8 @@
-# TheWildOasis
-The Wild Oasis is a React-based project for managing hotel operations, including bookings, check-ins, payments, and staff administration. Built with React Router, Supabase, and other React technologies, it offers an intuitive UI and real-time updates for seamless hotel management. Contributions are welcome! 🚀
+# React + Vite
+
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh

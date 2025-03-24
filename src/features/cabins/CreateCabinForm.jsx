@@ -196,7 +196,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 
 CreateCabinForm.propTypes = {
   cabinToEdit: PropTypes.shape({
-    id: PropTypes.string, // or PropTypes.number depending on the data type
+    id: PropTypes.string,
     name: PropTypes.string,
     maxCapacity: PropTypes.number,
     regularPrice: PropTypes.number,

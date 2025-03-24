@@ -34,7 +34,7 @@ function Sidebar({ isOpen }) {
 }
 
 Sidebar.propTypes = {
-  isOpen: PropTypes.func.isRequired, // Add this line
+  isOpen: PropTypes.bool.isRequired, // Add this line
 };
 
 export default Sidebar;

@@ -34,11 +34,10 @@ const Container = styled.div`
 `;
 
 function AppLayout() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  const handleToggleSidebar = () => {
-    setIsSidebarOpen((prev) => !prev);
-  };
+  const [isSidebarOpen, setIsSidebaropen] = useState(false);
+  function handleToggleSidebar() {
+    setIsSidebaropen((sidebar) => !sidebar);
+  }
 
   return (
     <StyledAppLayout>

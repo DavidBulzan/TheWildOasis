@@ -68,6 +68,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
         {
           onSuccess: () => {
             reset();
+            onCloseModal?.();
           },
         }
       );
@@ -196,7 +197,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 
 CreateCabinForm.propTypes = {
   cabinToEdit: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     name: PropTypes.string,
     maxCapacity: PropTypes.number,
     regularPrice: PropTypes.number,

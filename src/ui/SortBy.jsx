@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import Select from "./Select";
 import { useSearchParams } from "react-router-dom";
 
-function SortBy({ option }) {
+function SortBy({ options }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const sortBy = searchParams.get("sortBy") || "";
 
@@ -13,7 +13,7 @@ function SortBy({ option }) {
 
   return (
     <Select
-      options={option}
+      options={options}
       type="white"
       onChange={hadleChange}
       value={sortBy}
@@ -22,7 +22,7 @@ function SortBy({ option }) {
 }
 
 SortBy.propTypes = {
-  option: PropTypes.string.isRequired,
+  options: PropTypes.string,
 };
 
 export default SortBy;

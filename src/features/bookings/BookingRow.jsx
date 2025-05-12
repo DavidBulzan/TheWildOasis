@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import PropTypes from "prop-types";
 import { format, isToday } from "date-fns";
 
 import Tag from "../../ui/Tag";
@@ -44,8 +45,8 @@ function BookingRow({
     numGuests,
     totalPrice,
     status,
-    guests: { fullName: guestName, email },
-    cabins: { name: cabinName },
+    guest: { fullName: guestName, email } = {},
+    cabins: { name: cabinName } = {},
   },
 }) {
   const statusToTagName = {
@@ -53,6 +54,7 @@ function BookingRow({
     "checked-in": "green",
     "checked-out": "silver",
   };
+  console.log(bookingId, created_at, numGuests);
 
   return (
     <Table.Row>
@@ -82,5 +84,30 @@ function BookingRow({
     </Table.Row>
   );
 }
+
+BookingRow.propTypes = {
+  booking: PropTypes.shape({
+    id: PropTypes.number.isRequired, // Booking ID
+    created_at: PropTypes.string.isRequired, // Creation date
+    startDate: PropTypes.string.isRequired, // Start date of the booking
+    endDate: PropTypes.string.isRequired, // End date of the booking
+    numNights: PropTypes.number.isRequired, // Number of nights
+    numGuests: PropTypes.number.isRequired, // Number of guests
+    totalPrice: PropTypes.number.isRequired, // Total price of the booking
+    status: PropTypes.oneOf([
+      "unconfirmed",
+      "checked-in",
+      "checked-out",
+      "confirmed",
+    ]).isRequired,
+    guest: PropTypes.shape({
+      fullName: PropTypes.string.isRequired, // Guest's full name
+      email: PropTypes.string.isRequired, // Guest's email
+    }).isRequired,
+    cabins: PropTypes.shape({
+      name: PropTypes.string.isRequired, // Cabin name
+    }).isRequired,
+  }).isRequired,
+};
 
 export default BookingRow;

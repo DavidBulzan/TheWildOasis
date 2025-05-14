@@ -57,7 +57,3 @@ export function useBookings() {
     count,
   };
 }
-
-//TODO:
-// --Add pagination on cabins
-// --change global button color

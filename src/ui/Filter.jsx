@@ -19,7 +19,7 @@ const FilterButton = styled.button`
   ${(props) =>
     props.active &&
     css`
-      background-color: var(--color-brand-600);
+      background-color: var(--color-brand-999);
       color: var(--color-brand-50);
     `}
 
@@ -30,7 +30,7 @@ const FilterButton = styled.button`
   transition: all 0.3s;
 
   &:hover:not(:disabled) {
-    background-color: var(--color-brand-600);
+    background-color: var(--color-brand-999);
     color: var(--color-brand-50);
   }
 `;

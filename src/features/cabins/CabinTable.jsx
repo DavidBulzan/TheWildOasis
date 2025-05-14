@@ -6,30 +6,53 @@ import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import Empty from "../../ui/Empty";
 import { useSearchParams } from "react-router-dom";
+import Pagination from "../../ui/Pagination";
+import { useQueryClient } from "@tanstack/react-query";
+import { PAGE_SIZE } from "../../utils/constants";
 
 function CabinTable() {
+  const [searchParams] = useSearchParams();
+  const queryClient = useQueryClient();
+
+  //Pagination
+  const page = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
+  console.log("page", page);
+
+  //Query
   const {
     isLoading,
-    data: cabins,
+    data: { data: cabins = [], count } = {},
     error,
   } = useQuery({
-    queryKey: ["cabins"],
-    queryFn: async () => {
-      try {
-        return getCabins();
-      } catch (error) {
-        console.error("Error fetching data", error);
-        throw new error();
-      }
-    },
+    queryKey: ["cabins", page],
+    queryFn: () => getCabins({ page }),
+    keepPreviousData: true,
   });
-  const [searchParams] = useSearchParams();
 
-  const filterValue = searchParams.get("discount") || "all";
+  //Pre-fetching
+  const pageCount = Math.ceil(count / PAGE_SIZE);
 
+  if (page < pageCount) {
+    queryClient.prefetchQuery({
+      queryKey: ["cabins", page + 1],
+      queryFn: () => getCabins({ page: page + 1 }),
+    });
+  }
+
+  if (page > 1) {
+    queryClient.prefetchQuery({
+      queryKey: ["cabins", page - 1],
+      queryFn: () => getCabins({ page: page - 1 }),
+    });
+  }
+
+  //Error handling
   if (isLoading) return <Spinner />;
   if (!cabins.length) return <Empty resource="cabins" />;
   if (error) return <div>Error loading cabins {error.message}</div>;
+
+  //Fiter value
+  const filterValue = searchParams.get("discount") || "all";
 
   //1) Filter
   let filteredCabins;
@@ -63,6 +86,10 @@ function CabinTable() {
             <CabinRow cabin={cabin} key={cabin.id} />
           ))}
         </Table.Body>
+
+        <Table.Footer>
+          <Pagination count={count} />
+        </Table.Footer>
       </Table>
     </Menus>
   );

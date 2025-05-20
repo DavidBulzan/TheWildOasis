@@ -4,7 +4,6 @@ import { getBooking } from "../../services/apiBookings";
 
 export function useBooking() {
   const { bookingId } = useParams();
-  console.log("Booking ID from use params:", bookingId);
 
   const {
     isLoading,
@@ -16,10 +15,6 @@ export function useBooking() {
     enabled: !!bookingId,
     retry: false,
   });
-
-  console.log("Booking from useQuery:", booking);
-  console.log("isLoading:", isLoading);
-  console.log("error:", error);
 
   return {
     booking,

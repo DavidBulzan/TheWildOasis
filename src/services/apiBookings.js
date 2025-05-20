@@ -3,7 +3,6 @@ import supabase from "./supabase";
 import { PAGE_SIZE } from "../utils/constants";
 
 export async function getBookings({ filter, sortBy, page }) {
-  console.log("API:", filter, sortBy, page);
   let query = supabase
     .from("bookings")
     .select(
@@ -42,7 +41,6 @@ export async function getBookings({ filter, sortBy, page }) {
 }
 
 export async function getBooking(id) {
-  console.log("API:", id);
   const { data, error } = await supabase
     .from("bookings")
     .select("*, cabins(*), guest(*)")
@@ -54,7 +52,6 @@ export async function getBooking(id) {
     throw new Error("Booking not found");
   }
 
-  console.log("Fetched booking data:", data);
   return data;
 }
 

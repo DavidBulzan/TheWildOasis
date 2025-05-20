@@ -104,6 +104,8 @@ const Footer = styled.footer`
 
 // A purely presentational component
 function BookingDataBox({ booking }) {
+  console.log("BookingDataBox", booking);
+
   const {
     created_at,
     startDate,
@@ -116,7 +118,7 @@ function BookingDataBox({ booking }) {
     hasBreakfast,
     observations,
     isPaid,
-    guests: { fullName: guestName, email, country, countryFlag, nationalID },
+    guest: { fullName: guestName, email, country, countryFlag, nationalID },
     cabins: { name: cabinName },
   } = booking;
 
@@ -187,28 +189,28 @@ function BookingDataBox({ booking }) {
 
 BookingDataBox.propTypes = {
   booking: propTypes.shape({
-    created_at: propTypes.string.isRequired,
-    startDate: propTypes.string.isRequired,
-    endDate: propTypes.string.isRequired,
-    numNights: propTypes.number.isRequired,
-    numGuests: propTypes.number.isRequired,
-    cabinPrice: propTypes.number.isRequired,
-    extrasPrice: propTypes.number.isRequired,
-    totalPrice: propTypes.number.isRequired,
-    hasBreakfast: propTypes.bool.isRequired,
+    created_at: propTypes.string,
+    startDate: propTypes.string,
+    endDate: propTypes.string,
+    numNights: propTypes.number,
+    numGuests: propTypes.number,
+    cabinPrice: propTypes.number,
+    extrasPrice: propTypes.number,
+    totalPrice: propTypes.number,
+    hasBreakfast: propTypes.bool,
     observations: propTypes.string,
-    isPaid: propTypes.bool.isRequired,
-    guests: propTypes.shape({
-      fullName: propTypes.string.isRequired,
-      email: propTypes.string.isRequired,
+    isPaid: propTypes.bool,
+    guest: propTypes.shape({
+      fullName: propTypes.string,
+      email: propTypes.string,
       countryFlag: propTypes.string,
       nationalID: propTypes.string,
-      country: propTypes.string.isRequired,
-    }).isRequired,
+      country: propTypes.string,
+    }),
     cabins: propTypes.shape({
-      name: propTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
+      name: propTypes.string,
+    }), // Properly closed `cabins` shape
+  }).isRequired, // Ensure `booking` is required
 };
 
 export default BookingDataBox;

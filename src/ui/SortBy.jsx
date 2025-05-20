@@ -22,7 +22,15 @@ function SortBy({ options }) {
 }
 
 SortBy.propTypes = {
-  options: PropTypes.string,
+  options: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        value: PropTypes.string.isRequired,
+        label: PropTypes.string.isRequired,
+      }),
+    ])
+  ).isRequired,
 };
 
 export default SortBy;

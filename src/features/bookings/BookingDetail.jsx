@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
-// import BookingDataBox from "./BookingDataBox";
+import BookingDataBox from "./BookingDataBox";
 import Row from "../../ui/Row";
 import Heading from "../../ui/Heading";
 import Tag from "../../ui/Tag";
 import ButtonGroup from "../../ui/ButtonGroup";
 import Button from "../../ui/Button";
-import ButtonText from "../../ui/ButtonText";
+
 import Spinner from "../../ui/Spinner";
 
 import { useMoveBack } from "../../hooks/useMoveBack";
@@ -20,6 +20,8 @@ const HeadingGroup = styled.div`
 
 function BookingDetail() {
   const { booking, isLoading } = useBooking();
+
+  const navigate = useMoveBack();
 
   const moveBack = useMoveBack();
 
@@ -35,17 +37,22 @@ function BookingDetail() {
 
   return (
     <>
-      <Row type="horizontal">
+      <Row type="">
         <HeadingGroup>
           <Heading as="h1">Booking #X{bookingId}</Heading>
           <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
         </HeadingGroup>
-        <ButtonText onClick={moveBack}>&larr; Back</ButtonText>
       </Row>
 
-      {/* <BookingDataBox booking={booking} /> */}
+      <BookingDataBox booking={booking} />
 
       <ButtonGroup>
+        {status === "unconfirmed" ? (
+          <Button onClick={() => navigate(`/checkin/${bookingId}`)}>
+            Check in
+          </Button>
+        ) : null}
+
         <Button variation="secondary" onClick={moveBack}>
           Back
         </Button>

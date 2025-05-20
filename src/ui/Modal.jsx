@@ -99,13 +99,13 @@ Modal.Open = Open;
 Modal.Window = Window;
 
 Modal.propTypes = {
-  children: propTypes.node.isRequired,
-  onClose: propTypes.func.isRequired,
+  children: propTypes.node,
+  onClose: propTypes.func,
 };
 
 Window.propTypes = {
-  children: propTypes.node.isRequired,
-  name: propTypes.string.isRequired,
+  children: propTypes.node,
+  name: propTypes.string,
 };
 
 export default Modal;

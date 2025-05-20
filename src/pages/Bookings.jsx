@@ -8,6 +8,8 @@ function Bookings() {
     <>
       <Row type="horizontal">
         <Heading as="h1">All bookings</Heading>
+      </Row>
+      <Row type="horizontal">
         <BookingTableOperations />
       </Row>
 

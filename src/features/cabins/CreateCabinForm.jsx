@@ -204,7 +204,7 @@ CreateCabinForm.propTypes = {
     discount: PropTypes.number,
     image: PropTypes.string,
   }),
-  onCloseModal: PropTypes.func.isRequired,
+  onCloseModal: PropTypes.func,
 };
 
 export default CreateCabinForm;

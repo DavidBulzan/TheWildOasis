@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import Logout from "../features/authentication/Logout";
 
 const StyledHeader = styled.header`
   background-color: var(--color-grey-0);
@@ -29,7 +30,7 @@ const HamburgerButton = styled.button`
 function Header({ onToggleSidebar }) {
   return (
     <StyledHeader>
-      <div>HEADER</div>
+      <Logout />
       <HamburgerButton onClick={onToggleSidebar}>☰</HamburgerButton>
     </StyledHeader>
   );

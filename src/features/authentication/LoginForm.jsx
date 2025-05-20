@@ -28,7 +28,7 @@ function LoginForm() {
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit} maxWidth="60rem">
       <FormRowVertical label="Email address">
         <Input
           type="email"

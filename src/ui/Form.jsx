@@ -41,7 +41,7 @@ const Form = styled.form`
 
       /* Add a default width */
       width: 100%; /* Ensure it takes up the full width of its container */
-      max-width: 40rem; /* Limit the width for better appearance */
+      max-width: ${props.maxWidth}; /* Allow for a max-width prop */
     `}
 
   ${(props) =>
@@ -49,7 +49,7 @@ const Form = styled.form`
     css`
       width: 80rem;
     `}
-    
+
   overflow: hidden;
   font-size: 1.4rem;
 `;

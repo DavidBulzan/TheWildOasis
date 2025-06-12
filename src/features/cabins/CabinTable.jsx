@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import getCabins from "../../services/apiCabins";
 import Spinner from "../../ui/Spinner";
 import CabinRow from "./CabinRow";
@@ -9,6 +8,7 @@ import { useSearchParams } from "react-router-dom";
 import Pagination from "../../ui/Pagination";
 import { useQueryClient } from "@tanstack/react-query";
 import { PAGE_SIZE } from "../../utils/constants";
+import { useCabins } from "./useCabins";
 
 function CabinTable() {
   const [searchParams] = useSearchParams();
@@ -16,18 +16,8 @@ function CabinTable() {
 
   //Pagination
   const page = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
-  console.log("page", page);
 
-  //Query
-  const {
-    isLoading,
-    data: { data: cabins = [], count } = {},
-    error,
-  } = useQuery({
-    queryKey: ["cabins", page],
-    queryFn: () => getCabins({ page }),
-    keepPreviousData: true,
-  });
+  const { cabins, isLoading, error, count } = useCabins({ page });
 
   //Pre-fetching
   const pageCount = Math.ceil(count / PAGE_SIZE);

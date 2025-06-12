@@ -9,7 +9,11 @@ function Logout() {
 
   return (
     <ButtonIcon disabled={isLoggingOut} onClick={logout}>
-      {!isLoggingOut ? <HiArrowRightOnRectangle /> : <SpinnerMini />}
+      {!isLoggingOut ? (
+        <HiArrowRightOnRectangle color="var(--color-brand-999)" />
+      ) : (
+        <SpinnerMini />
+      )}
     </ButtonIcon>
   );
 }

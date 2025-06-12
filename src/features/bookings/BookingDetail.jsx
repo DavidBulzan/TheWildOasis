@@ -14,6 +14,7 @@ import { useMoveBack } from "../../hooks/useMoveBack";
 import { useBooking } from "../bookings/useBooking";
 import { useCheckout } from "../check-in-out/useCheckout";
 import { useDeleteBooking } from "../bookings/useDeleteBooking";
+import { useNavigate } from "react-router-dom";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -26,7 +27,7 @@ function BookingDetail() {
   const { checkout, isCheckingOut } = useCheckout();
   const { deleteBooking, isDeleting } = useDeleteBooking();
 
-  const navigate = useMoveBack();
+  const navigate = useNavigate();
 
   const moveBack = useMoveBack();
 

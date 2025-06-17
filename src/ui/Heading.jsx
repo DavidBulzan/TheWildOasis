@@ -14,13 +14,13 @@ const Heading = styled.h1`
       font-weight: 600;
     `}
   ${(props) =>
-    props.a === "h3" &&
+    props.as === "h3" &&
     css`
       font-size: 2rem;
       font-weight: 500;
     `}
   ${(props) =>
-    props.a === "h4" &&
+    props.as === "h4" &&
     css`
       font-size: 3rem;
       font-weight: 600;

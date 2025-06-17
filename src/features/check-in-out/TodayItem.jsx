@@ -1,4 +1,10 @@
 import styled from "styled-components";
+import Tag from "../../ui/Tag";
+import PropTypes from "prop-types";
+import Button from "../../ui/Button";
+import CheckoutButton from "./CheckoutButton";
+import { Flag } from "../../ui/Flag";
+import { Link } from "react-router-dom";
 
 const StyledTodayItem = styled.li`
   display: grid;
@@ -18,3 +24,42 @@ const StyledTodayItem = styled.li`
 const Guest = styled.div`
   font-weight: 500;
 `;
+
+function TodayItem({ activity }) {
+  const { id, guest, status, numNights } = activity;
+  console.log(id, guest, status, numNights);
+
+  return (
+    <StyledTodayItem>
+      {status === "unconfirmed" && <Tag type="green">Arriving</Tag>}
+      {status === "checked-in" && <Tag type="blue">Departing</Tag>}
+
+      <Flag src={guest.countryFlag} alt={`Flag of ${guest.country}`} />
+      <Guest>{guest.fullName}</Guest>
+      <div>{numNights} nights </div>
+
+      {status === "unconfirmed" && (
+        <Button
+          size="small"
+          variation="primary"
+          as={Link}
+          to={`/checkin/${id}`}
+        >
+          Check in
+        </Button>
+      )}
+      {status === "checked-in" && <CheckoutButton bookingId={id} />}
+    </StyledTodayItem>
+  );
+}
+
+TodayItem.propTypes = {
+  activity: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    guest: PropTypes.object.isRequired,
+    status: PropTypes.string.isRequired,
+    numNights: PropTypes.number.isRequired,
+  }).isRequired,
+};
+
+export default TodayItem;

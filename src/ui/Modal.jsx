@@ -15,6 +15,9 @@ const StyledModal = styled.div`
   box-shadow: var(--shadow-lg);
   padding: 3.2rem 4rem;
   transition: all 0.5s;
+  min-width: 40rem;
+  max-width: 90vw;
+  width: fit-content;
 `;
 
 const Overlay = styled.div`
@@ -77,14 +80,13 @@ function Open({ children, opens }) {
 
 function Window({ children, name }) {
   const { openName, close } = useContext(ModalContext);
-
   const ref = useOutsideClick(close);
 
   if (name !== openName) return null;
 
   return createPortal(
     <Overlay>
-      <StyledModal ref={ref}>
+      <StyledModal ref={ref} data-modal>
         <Button onClick={close}>
           <HiXMark />
         </Button>

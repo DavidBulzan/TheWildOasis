@@ -72,7 +72,10 @@ function Menus({ children }) {
   const [openId, setOpenId] = useState("");
   const [position, setPosition] = useState(null);
 
-  const close = () => setOpenId("");
+  const close = () => {
+    setOpenId("");
+    setPosition(null);
+  };
   const open = setOpenId;
 
   return (
@@ -106,9 +109,9 @@ function Toggle({ id }) {
 
 function List({ id, children }) {
   const { openId, position, close } = useContext(MenusContext);
-  const ref = useOutsideClick(close);
+  const ref = useOutsideClick(close, false);
 
-  if (openId !== id) return null;
+  if (openId !== id || !position) return null;
 
   return createPortal(
     <StyledList position={position} ref={ref}>

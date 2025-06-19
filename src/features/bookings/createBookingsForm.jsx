@@ -210,7 +210,6 @@ function CreateBookingForm() {
 
         <GuestRow>
           <Label>Guest</Label>
-
           <GuestSelector
             guests={guests}
             onSelect={onGuestSelect}
@@ -260,7 +259,7 @@ function CreateBookingForm() {
           {errors.numGuests && <Error>{errors.numGuests.message}</Error>}{" "}
         </FormRow>
         <FormRow>
-          <Label>Cabin Price</Label>
+          <Label>Cabin Price / Night (€)</Label>
           <Input
             value={selectedCabin?.regularPrice || ""}
             type="number"
@@ -271,7 +270,7 @@ function CreateBookingForm() {
           {errors.cabinPrice && <Error>{errors.cabinPrice.message}</Error>}{" "}
         </FormRow>
         <FormRow>
-          <Label>Extras Price</Label>
+          <Label>Extras Price (€)</Label>
           <Input
             {...register("extrasPrice", { required: true })}
             type="number"
@@ -307,7 +306,7 @@ function CreateBookingForm() {
             Include Breakfast{" "}
             {`(${formatCurrency(
               settings?.breakfastPrice || 0
-            )}/day/guest = ${formatCurrency(breakfastPrice || 0)} total)`}
+            )} / day / guest = ${formatCurrency(breakfastPrice || 0)} total)`}
           </Label>
           <input
             type="checkbox"

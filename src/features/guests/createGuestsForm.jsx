@@ -153,6 +153,14 @@ function CreateGuestsForm({ onCreate, onClose }) {
         />
         {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
       </FormRow>
+      <FormRow>
+        <Label>Age</Label>
+        <Input
+          {...register("age", { required: "Age is required" })}
+          type="number"
+        />
+        {errors.age && <ErrorMessage>{errors.age.message}</ErrorMessage>}
+      </FormRow>
 
       <FormRow>
         <Label>National ID</Label>

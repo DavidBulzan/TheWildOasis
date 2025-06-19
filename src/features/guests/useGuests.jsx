@@ -7,8 +7,6 @@ export function useGuests() {
     queryKey: ["guest"],
   });
 
-  console.log("Guests data:", guests);
-
   return {
     guests,
     isLoading,

@@ -7,6 +7,7 @@ import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
+import handleInvoice from "../check-in-out/handleCheckout";
 
 import { formatCurrency } from "../../utils/helpers";
 import { formatDistanceFromNow } from "../../utils/helpers";
@@ -20,6 +21,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useCheckout } from "../check-in-out/useCheckout";
 import { useDeleteBooking } from "../bookings/useDeleteBooking";
+import { useActivity } from "../check-in-out/useActivity";
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -68,6 +70,7 @@ function BookingRow({
   const navigate = useNavigate();
   const { checkout, isCheckingOut } = useCheckout();
   const { deleteBooking, isDeleting } = useDeleteBooking();
+  const { activities } = useActivity();
 
   return (
     <Table.Row>
@@ -119,6 +122,7 @@ function BookingRow({
                 icon={<HiArrowUpOnSquare />}
                 onClick={() => {
                   checkout(bookingId);
+                  handleInvoice({ activities, bookingId });
                 }}
                 disabled={isCheckingOut}
               >
@@ -137,7 +141,9 @@ function BookingRow({
         <Modal.Window name="delete">
           <ConfirmDelete
             resourceName="booking"
-            onConfirm={() => deleteBooking(bookingId)}
+            onConfirm={() => {
+              deleteBooking(bookingId);
+            }}
           />
         </Modal.Window>
       </Modal>

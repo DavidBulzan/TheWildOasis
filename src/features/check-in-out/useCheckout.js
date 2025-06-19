@@ -13,7 +13,9 @@ export function useCheckout() {
       }),
 
     onSuccess: (data) => {
-      toast.success(`Booking #${data.id} successfully checked out!`);
+      toast.success(
+        `Booking #${data.id} successfully checked out and invoice sent!`
+      );
       queryClinet.invalidateQueries({ active: true });
     },
 

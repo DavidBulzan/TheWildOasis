@@ -96,7 +96,7 @@ function CreateGuestsForm({ onCreate, onClose }) {
 
         setCountries(countryList);
         setLoading(false);
-        console.log(`Successfully loaded ${countryList.length} countries`);
+
         return;
       } catch (error) {
         console.error(`Failed to fetch from ${endpoint}:`, error);

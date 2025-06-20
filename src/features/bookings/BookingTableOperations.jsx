@@ -1,6 +1,7 @@
 import Filter from "../../ui/Filter";
 import SortBy from "../../ui/SortBy";
 import TableOperations from "../../ui/TableOperations";
+import GuestSearch from "../../ui/GuestSearch";
 
 function BookingTableOperations() {
   return (
@@ -26,6 +27,8 @@ function BookingTableOperations() {
           { value: "totalPrice-asc", label: "Sort by amount (low first)" },
         ]}
       />
+
+      <GuestSearch />
     </TableOperations>
   );
 }

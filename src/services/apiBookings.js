@@ -2,7 +2,7 @@ import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
 import { PAGE_SIZE } from "../utils/constants";
 
-export async function getBookings({ filter, sortBy, page }) {
+export async function getBookings({ filters, sortBy, page }) {
   let query = supabase
     .from("bookings")
     .select(
@@ -10,9 +10,19 @@ export async function getBookings({ filter, sortBy, page }) {
       { count: "exact" }
     );
 
-  //FILTER
-  if (filter) {
-    query = query[filter.method || "eq"](filter.field, filter.value);
+  // //FILTER
+  // if (filter) {
+  //   query = query[filter.method || "eq"](filter.field, filter.value);
+  // }
+
+  //FILTERS
+  if (Array.isArray(filters)) {
+    filters.forEach((f) => {
+      query = query[f.method || "eq"](f.field, f.value);
+    });
+  } else if (filters) {
+    query = query[filters.method || "eq"](filters.field, filters.value);
+    // query = query.ilike("guest.fullName", `%${guestName}%`);
   }
 
   //SORT

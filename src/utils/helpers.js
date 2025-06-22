@@ -27,3 +27,18 @@ export const formatCurrency = (value) =>
   new Intl.NumberFormat("en", { style: "currency", currency: "USD" }).format(
     value
   );
+
+export const getBookedDatesForCabin = (bookings, selectedCabinId) => {
+  return bookings
+    .filter((b) => b.cabinId === selectedCabinId)
+    .flatMap((b) => {
+      const dates = [];
+      let current = new Date(b.startDate);
+      const end = new Date(b.endDate);
+      while (current <= end) {
+        dates.push(new Date(current));
+        current.setDate(current.getDate() + 1);
+      }
+      return dates;
+    });
+};

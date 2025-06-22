@@ -7,8 +7,10 @@ import toast from "react-hot-toast";
 
 function CheckoutButton({ bookingId }) {
   const { checkout, isCheckingOut } = useCheckout();
-  const { activities } = useActivity();
-  // const { guest } = activities || {};
+  const { activities = [] } = useActivity();
+
+  const booking = activities.find((b) => b.id === bookingId);
+  const guest = booking?.guest;
 
   const handleCheckoutWithInvoice = async () => {
     try {
@@ -17,8 +19,7 @@ function CheckoutButton({ bookingId }) {
       await handleInvoice({
         activities,
         bookingId,
-        // sendEmail: guest?.email === "davidbulzan36@gmail.com" ? true : false,
-        sendEmail: true,
+        sendEmail: guest?.email === "davidbulzan36@gmail.com" ? true : false,
       });
     } catch (error) {
       console.error("Checkout failed:", error);

@@ -182,6 +182,10 @@ const GlobalStyles = createGlobalStyle`
     /* For dark mode */
     filter: grayscale(var(--image-grayscale)) opacity(var(--image-opacity));
   }
+
+  .react-datepicker__portal {
+  background-color: transparent !important;
+}
   `;
 
 export default GlobalStyles;

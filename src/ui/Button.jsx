@@ -148,6 +148,12 @@ const Button = styled.button`
   border: none;
   border-radius: var(--border-radius-sm);
   box-shadow: var(--shadow-sm);
+  outline: none;
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
 
   ${(props) => sizes[props.size]}
   ${(props) => variations[props.variation]}

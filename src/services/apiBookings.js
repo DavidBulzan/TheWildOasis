@@ -10,11 +10,6 @@ export async function getBookings({ filters, sortBy, page }) {
       { count: "exact" }
     );
 
-  // //FILTER
-  // if (filter) {
-  //   query = query[filter.method || "eq"](filter.field, filter.value);
-  // }
-
   //FILTERS
   if (Array.isArray(filters)) {
     filters.forEach((f) => {
@@ -22,7 +17,6 @@ export async function getBookings({ filters, sortBy, page }) {
     });
   } else if (filters) {
     query = query[filters.method || "eq"](filters.field, filters.value);
-    // query = query.ilike("guest.fullName", `%${guestName}%`);
   }
 
   //SORT
@@ -163,4 +157,14 @@ export async function createBooking(newBooking) {
     throw new Error("Booking could not be created");
   }
   return data;
+}
+
+export async function getAllBookings() {
+  let { data: bookings, error } = await supabase.from("bookings").select("*");
+
+  if (error) {
+    console.error(error);
+    throw new Error("Bookings could not be loaded");
+  }
+  return bookings;
 }

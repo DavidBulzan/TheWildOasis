@@ -40,7 +40,7 @@ export function useBookings() {
     queryFn: () => getBookings({ filters, sortBy, page: pageOrNull }),
   });
 
-  // 5) Search Guest by name (frontend filter)
+  // 5) Search Guest by name (on the frontend)
   const filteredBookings = isGuestSearchActive
     ? bookings.filter((b) =>
         b.guest?.fullName?.toLowerCase().includes(guestName)

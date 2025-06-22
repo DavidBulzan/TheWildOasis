@@ -30,6 +30,7 @@ const Input = styled.input`
   position: relative;
   box-shadow: none;
   transition: border-color 0.2s, box-shadow 0.2s;
+  height: 3.1rem;
 
   &::placeholder {
     color: var(--color-grey-500);

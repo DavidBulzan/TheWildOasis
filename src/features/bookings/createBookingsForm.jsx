@@ -6,16 +6,20 @@ import Button from "../../ui/Button";
 import Select from "react-select";
 import Spinner from "../../ui/Spinner";
 import AddGuest from "../guests/AddGuests";
+import { getBookedDatesForCabin } from "../../utils/helpers";
 import { customSelectStyles } from "../../styles/customSelectStyles";
 import { FormContent } from "../../ui/FormContent";
 import { useForm, Controller } from "react-hook-form";
 import { useCreateBooking } from "./useCreateBooking";
 import { useGuests } from "../guests/useGuests";
 import { useCabins } from "../cabins/useCabins";
+import { useAllBookings } from "./useAllBookins";
 import { useSettings } from "../settings/useSettings";
 import { useState, useEffect } from "react";
 import { differenceInCalendarDays, parseISO } from "date-fns";
 import { formatCurrency } from "../../utils/helpers";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const FormRow = styled.div`
   display: grid;
@@ -43,6 +47,19 @@ const FormRow = styled.div`
     gap: 1.2rem;
   }
 `;
+
+const DateFormRow = styled.div`
+  display: grid;
+  align-items: center;
+  grid-template-columns: 24rem 1fr;
+  gap: 2.4rem;
+  padding: 1.2rem 0;
+
+  input {
+    width: 19.5rem;
+  }
+`;
+
 const GuestRow = styled.div`
   display: grid;
   align-items: center;
@@ -140,6 +157,15 @@ function CreateBookingForm() {
   const { cabins } = useCabins();
   const { errors } = formState;
   const { settings } = useSettings();
+  const { allBookings = [] } = useAllBookings();
+
+  //Get all booked dates for the selected cabin
+  const bookedDates = selectedCabin
+    ? getBookedDatesForCabin(allBookings, selectedCabin?.id)
+    : [];
+
+  console.log(allBookings);
+  console.log("bookedDates", bookedDates);
 
   //num nights calculation
   const startDate = watch("startDate");
@@ -206,6 +232,7 @@ function CreateBookingForm() {
             onSelect={onCabinSelect}
             selectedCabin={selectedCabin}
           />
+          {console.log("selectedCabin", selectedCabin)}
         </FormRow>
 
         <GuestRow>
@@ -217,28 +244,57 @@ function CreateBookingForm() {
           />
           <AddGuest />
         </GuestRow>
-        <FormRow>
+        <DateFormRow>
           <Label>Start Date</Label>
-          <Input
-            {...register("startDate", { required: true })}
-            type="date"
-            id="startDate"
-            disabled={isCreating}
+          <Controller
+            control={control}
+            name="startDate"
+            rules={{ required: true }}
+            render={({ field }) => (
+              <DatePicker
+                selected={field.value ? new Date(field.value) : null}
+                onChange={(date) =>
+                  field.onChange(date?.toISOString().slice(0, 10))
+                }
+                excludeDates={bookedDates}
+                dateFormat={"yyyy-MM-dd"}
+                placeholderText="Select start date"
+                disabled={isCreating}
+                customInput={<Input />}
+                withPortal
+              />
+            )}
           />
           {errors.startDate && <Error>{errors.startDate.message}</Error>}
-        </FormRow>
-        <FormRow>
+        </DateFormRow>
+        <DateFormRow>
           <Label>End Date</Label>
-          <Input
-            {...register("endDate", { required: true })}
-            type="date"
-            id="endDate"
-            disabled={isCreating}
+          <Controller
+            control={control}
+            name="endDate"
+            rules={{ required: true }}
+            render={({ field }) => (
+              <DatePicker
+                selected={field.value ? new Date(field.value) : null}
+                onChange={(date) =>
+                  field.onChange(date?.toISOString().slice(0, 10))
+                }
+                excludeDates={bookedDates}
+                dateFormat={"yyyy-MM-dd"}
+                placeholderText="Select end date"
+                disabled={isCreating}
+                minDate={
+                  watch("startDate") ? new Date(watch("startDate")) : null
+                }
+                customInput={<Input />}
+                withPortal
+              />
+            )}
           />
           {errors.endDate && <Error>{errors.endDate.message}</Error>}{" "}
-        </FormRow>
+        </DateFormRow>
         <FormRow>
-          <Label>Num Nights</Label>
+          <Label>Nights</Label>
           <Input
             value={numNights}
             type="number"

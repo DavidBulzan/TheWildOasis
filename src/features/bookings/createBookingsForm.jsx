@@ -56,7 +56,15 @@ const DateFormRow = styled.div`
   padding: 1.2rem 0;
 
   input {
-    width: 19.5rem;
+    width: 19rem;
+    margin-bottom: 0;
+  }
+  .react-datepicker-wrapper {
+    width: 100%;
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--color-grey-100);
   }
 `;
 
@@ -67,14 +75,6 @@ const GuestRow = styled.div`
   gap: 2.4rem;
 
   padding: 1.2rem 0;
-
-  &:first-child {
-    padding-top: 0;
-  }
-
-  &:last-child {
-    padding-bottom: 0;
-  }
 
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-grey-100);

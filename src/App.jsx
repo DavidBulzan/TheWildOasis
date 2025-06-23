@@ -12,10 +12,11 @@ import Users from "./pages/Users";
 import AppLayout from "./ui/AppLayout";
 import Booking from "./pages/Booking";
 import Checkin from "./pages/Checkin";
+import ProtectedRoute from "./ui/ProtectedRoute";
+import Calendar from "./pages/Calendar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
-import ProtectedRoute from "./ui/ProtectedRoute";
 import { DarkModeProvider } from "./context/DarkModeContext";
 
 const queryClient = new QueryClient({
@@ -44,6 +45,7 @@ function App() {
               >
                 <Route index element={<Navigate replace to="dashboard" />} />
                 <Route path="dashboard" element={<Dashboard />} />
+                <Route path="calendar" element={<Calendar />} />
                 <Route path="bookings" element={<Bookings />} />
                 <Route path="checkin/:bookingId" element={<Checkin />} />
                 <Route path="bookings/:bookingId" element={<Booking />} />

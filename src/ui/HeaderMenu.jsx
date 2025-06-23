@@ -4,6 +4,7 @@ import ButtonIcon from "./ButtonIcon";
 import { useNavigate } from "react-router-dom";
 import { HiOutlineUser } from "react-icons/hi";
 import DarkModeToggle from "./DarkModeToggle";
+import ModalCalendar from "../features/dashboard/ModalCalendar";
 
 const StyledHeaderMenu = styled.ul`
   display: flex;
@@ -19,6 +20,9 @@ function HeaderMenu() {
         <ButtonIcon onClick={() => navigate("/account")}>
           <HiOutlineUser color="var(--color-brand-999)" />
         </ButtonIcon>
+      </li>
+      <li>
+        <ModalCalendar />
       </li>
       <li>
         <DarkModeToggle />

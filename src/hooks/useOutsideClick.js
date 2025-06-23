@@ -18,8 +18,8 @@ export function useOutsideClick(handler) {
         }
       }
 
-      document.addEventListener("click", handleClick, true);
-      return () => document.removeEventListener("click", handleClick, true);
+      document.addEventListener("mousedown", handleClick, true);
+      return () => document.removeEventListener("mousedown", handleClick, true);
     },
     [handler]
   );

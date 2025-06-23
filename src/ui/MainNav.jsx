@@ -5,6 +5,7 @@ import { HiOutlineCalendarDays } from "react-icons/hi2";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { HiOutlineHomeModern } from "react-icons/hi2";
 import { HiOutlineCog6Tooth } from "react-icons/hi2";
+import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
 
 const NavList = styled.ul`
   display: flex;
@@ -62,8 +63,14 @@ function MainNav() {
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="./bookings">
+          <StyledNavLink to="./calendar">
             <HiOutlineCalendarDays />
+            <span>Calendar</span>
+          </StyledNavLink>
+        </li>
+        <li>
+          <StyledNavLink to="./bookings">
+            <HiOutlineClipboardDocumentList />
             <span>Bookings</span>{" "}
           </StyledNavLink>
         </li>

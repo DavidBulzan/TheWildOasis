@@ -186,6 +186,14 @@ const GlobalStyles = createGlobalStyle`
   .react-datepicker__portal {
   background-color: transparent !important;
 }
+
+.react-datepicker-popper {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+.react-datepicker-wrapper {
+  width: 100%;
+}
   `;
 
 export default GlobalStyles;

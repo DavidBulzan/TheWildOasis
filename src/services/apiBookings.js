@@ -6,7 +6,7 @@ export async function getBookings({ filters, sortBy, page }) {
   let query = supabase
     .from("bookings")
     .select(
-      "id, created_at, startDate, endDate, numNights, numGuests, status, totalPrice, cabins(name), guest(fullName, email)",
+      "id, created_at, startDate, endDate, numNights, numGuests,cabinPrice,extrasPrice, status, hasBreakfast, isPaid ,totalPrice, observations, cabins(*), guest(*)",
       { count: "exact" }
     );
 
@@ -146,16 +146,23 @@ export async function deleteBooking(id) {
   return data;
 }
 
-export async function createBooking(newBooking) {
-  const { data, error } = await supabase
-    .from("bookings")
-    .insert([newBooking])
-    .select();
+export async function createEditBooking(newBooking, id) {
+  //Query
+  let query = supabase.from("bookings");
+
+  //Create cabin
+  if (!id) query = query.insert([newBooking]);
+
+  //Edit cabin
+  if (id) query = query.update([newBooking]).eq("id", id).select();
+
+  const { data, error } = await query.select();
 
   if (error) {
     console.error(error);
     throw new Error("Booking could not be created");
   }
+
   return data;
 }
 

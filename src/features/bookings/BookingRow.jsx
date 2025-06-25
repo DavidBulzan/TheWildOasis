@@ -16,12 +16,14 @@ import {
   HiArrowUpOnSquare,
   HiEye,
   HiTrash,
+  HiPencil,
 } from "react-icons/hi2";
 
 import { useNavigate } from "react-router-dom";
 import { useCheckout } from "../check-in-out/useCheckout";
 import { useDeleteBooking } from "../bookings/useDeleteBooking";
 import { useActivity } from "../check-in-out/useActivity";
+import CreateBookingForm from "./createBookingsForm";
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -50,8 +52,8 @@ const Amount = styled.div`
   font-weight: 500;
 `;
 
-function BookingRow({
-  booking: {
+function BookingRow({ booking }) {
+  const {
     id: bookingId,
     startDate,
     endDate,
@@ -60,8 +62,8 @@ function BookingRow({
     status,
     guest,
     cabins: { name: cabinName } = {},
-  },
-}) {
+  } = booking;
+
   const guestName = guest?.fullName || "";
   const email = guest?.email || "";
 
@@ -112,6 +114,10 @@ function BookingRow({
               See details
             </Menus.Button>
 
+            <Modal.Open opens="edit">
+              <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+            </Modal.Open>
+
             {status === "unconfirmed" && (
               <Menus.Button
                 icon={<HiArrowDownOnSquare />}
@@ -141,6 +147,9 @@ function BookingRow({
           </Menus.List>
         </Menus.Menu>
 
+        <Modal.Window name="edit">
+          <CreateBookingForm bookingToEdit={booking} />
+        </Modal.Window>
         <Modal.Window name="delete">
           <ConfirmDelete
             resourceName="booking"

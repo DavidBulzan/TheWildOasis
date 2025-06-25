@@ -20,6 +20,7 @@ import { differenceInCalendarDays, parseISO } from "date-fns";
 import { formatCurrency } from "../../utils/helpers";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useUpdateBooking } from "./useUpdateBookings";
 
 const FormRow = styled.div`
   display: grid;
@@ -147,25 +148,49 @@ function CabinSelector({ cabins, onSelect, selectedCabin }) {
 }
 
 //Booking Form
-function CreateBookingForm() {
-  const [selectedGuest, setSelectedGuest] = useState(null);
-  const [selectedCabin, setSelectedCabin] = useState(null);
+function CreateBookingForm({ bookingToEdit = {}, onCloseModal }) {
+  //if is editing
+  const { id: editId, ...newFields } = bookingToEdit;
+  const isEditSession = Boolean(editId);
+
+  //form
   const { register, handleSubmit, formState, control, reset, watch, setValue } =
-    useForm();
-  const { createBooking, isCreating } = useCreateBooking();
+    useForm({
+      defaultValues: isEditSession
+        ? { ...newFields, totalPrice: bookingToEdit.totalPrice }
+        : {},
+    });
+
+  //api data
   const { guests, isLoading } = useGuests();
   const { cabins } = useCabins();
   const { errors } = formState;
   const { settings } = useSettings();
   const { allBookings = [] } = useAllBookings();
 
+  //state
+  const [selectedGuest, setSelectedGuest] = useState(null);
+  const [selectedCabin, setSelectedCabin] = useState(null);
+
+  //Set selected guest/cabin on edit
+  useEffect(() => {
+    if (
+      isEditSession &&
+      guests?.length &&
+      cabins?.length &&
+      bookingToEdit.guest &&
+      bookingToEdit.cabins
+    ) {
+      setSelectedGuest(guests.find((g) => g.id === bookingToEdit.guest.id));
+      setSelectedCabin(cabins.find((c) => c.id === bookingToEdit.cabins.id));
+      reset({ ...bookingToEdit, totalPrice: bookingToEdit.totalPrice });
+    }
+  }, [isEditSession, bookingToEdit, guests, cabins, reset]);
+
   //Get all booked dates for the selected cabin
   const bookedDates = selectedCabin
     ? getBookedDatesForCabin(allBookings, selectedCabin?.id)
     : [];
-
-  console.log(allBookings);
-  console.log("bookedDates", bookedDates);
 
   //num nights calculation
   const startDate = watch("startDate");
@@ -185,30 +210,9 @@ function CreateBookingForm() {
     }
   }, [startDate, endDate, setValue]);
 
-  if (isLoading) return <Spinner />;
-  if (!guests || !cabins) return <p>No guests or cabins available</p>;
-
+  //handlers
   const onGuestSelect = (guest) => setSelectedGuest(guest);
   const onCabinSelect = (cabin) => setSelectedCabin(cabin);
-
-  const onSubmit = (data) => {
-    const payload = {
-      ...data,
-      guestId: selectedGuest?.id,
-      cabinId: selectedCabin?.id,
-      cabinPrice,
-      extrasPrice,
-      numGuests,
-      numNights,
-      totalPrice,
-    };
-    createBooking(payload);
-  };
-
-  const statusOptions = [
-    { value: "unconfirmed", label: "Unconfirmed" },
-    { value: "checked-in", label: "Checked-in" },
-  ];
 
   //total price calculation
   const numNights = Number(watch("numNights")) || 0;
@@ -222,6 +226,60 @@ function CreateBookingForm() {
     (settings?.breakfastPrice || 0) * numNights * numGuests;
   if (hasBreakfast) totalPrice = totalPrice + breakfastPrice;
 
+  //create/edit
+  const { createBooking, isCreating } = useCreateBooking();
+  const { editBooking, isEditing } = useUpdateBooking();
+
+  const isWorking = isCreating || isEditing || isLoading;
+  if (isWorking) return <Spinner />;
+  if (!guests || !cabins) return <p>No guests or cabins available</p>;
+
+  //form submission
+  const onSubmit = (data) => {
+    const payload = {
+      ...data,
+      guestId: selectedGuest?.id,
+      cabinId: selectedCabin?.id,
+      cabinPrice,
+      extrasPrice,
+      numGuests,
+      numNights,
+      totalPrice,
+    };
+
+    delete payload.cabins;
+    delete payload.guest;
+
+    console.log("Booking payload:", payload); // <-- Add this
+
+    if (isEditSession) {
+      editBooking(
+        { newBookingData: payload, id: editId },
+        {
+          onSuccess: () => {
+            onCloseModal();
+            reset();
+          },
+        }
+      );
+    } else {
+      createBooking(
+        { payload },
+        {
+          onSuccess: () => {
+            onCloseModal();
+            reset();
+          },
+        }
+      );
+    }
+  };
+
+  const statusOptions = [
+    { value: "unconfirmed", label: "Unconfirmed" },
+    { value: "checked-in", label: "Checked-in" },
+  ];
+
   return (
     <Form onSubmit={handleSubmit(onSubmit)} type="booking-modal">
       <FormContent>
@@ -232,7 +290,6 @@ function CreateBookingForm() {
             onSelect={onCabinSelect}
             selectedCabin={selectedCabin}
           />
-          {console.log("selectedCabin", selectedCabin)}
         </FormRow>
 
         <GuestRow>
@@ -405,12 +462,13 @@ function CreateBookingForm() {
       </FormContent>
       <FormRow>
         <Button type="submit" disabled={isCreating}>
-          Create Booking
+          {" "}
+          {isEditSession ? "Edit booking" : "Create new booking"}
         </Button>
         <Button
           type="button"
           variation="secondary"
-          onClick={() => reset()}
+          onClick={() => onCloseModal?.() || reset()}
           disabled={isCreating}
         >
           Cancel
@@ -419,6 +477,11 @@ function CreateBookingForm() {
     </Form>
   );
 }
+
+CreateBookingForm.propTypes = {
+  bookingToEdit: PropTypes.object.isRequired,
+  onCloseModal: PropTypes.func,
+};
 
 GuestSelector.propTypes = {
   guests: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -433,3 +496,7 @@ CabinSelector.propTypes = {
 };
 
 export default CreateBookingForm;
+
+//TODO
+//Edit bookings
+//Make responsive

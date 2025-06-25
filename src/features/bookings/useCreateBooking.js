@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { createBooking as createBookingApi } from "../../services/apiBookings";
+import { createEditBooking as createBookingApi } from "../../services/apiBookings";
 import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 

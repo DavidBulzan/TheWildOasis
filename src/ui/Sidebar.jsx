@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Logo from "./Logo";
 import MainNav from "./MainNav";
-import Uploader from "../data/Uploader";
+// import Uploader from "../data/Uploader";
 import PropTypes from "prop-types";
 
 const StyledSidebar = styled.aside`
@@ -31,7 +31,7 @@ function Sidebar({ isOpen }) {
     <StyledSidebar isOpen={isOpen}>
       <Logo />
       <MainNav />
-      <Uploader />
+      {/* <Uploader /> */}
     </StyledSidebar>
   );
 }

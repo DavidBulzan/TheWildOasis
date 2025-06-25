@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import PropTypes from "prop-types";
-
 import Input from "../../ui/Input";
 import Form from "../../ui/Form";
 import Button from "../../ui/Button";
@@ -47,6 +46,7 @@ const Error = styled.span`
 `;
 
 function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
+  console.log(cabinToEdit);
   const { id: editId, ...editValues } = cabinToEdit;
   const isEditSession = Boolean(editId);
   const { register, handleSubmit, reset, getValues, formState } = useForm({
